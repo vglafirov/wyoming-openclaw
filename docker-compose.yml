@@ -1,12 +1,22 @@
-version: "3.8"
-
 services:
-  wyoming-clawdbot:
+  wyoming-openclaw:
     build: .
-    container_name: wyoming-clawdbot
+    container_name: wyoming-openclaw
     restart: unless-stopped
     network_mode: host
-    volumes:
-      # Share Clawdbot config for gateway connection
-      - ${HOME}/.clawdbot:/root/.clawdbot
-    command: ["--host", "0.0.0.0", "--port", "10600", "--session-id", "voice-assistant"]
+    env_file: .env
+    command:
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "10600"
+      - "--gateway-url"
+      - "${GATEWAY_URL}"
+      - "--gateway-token"
+      - "${GATEWAY_TOKEN}"
+      - "--agent"
+      - "voice"
+      - "--session-user"
+      - "voice-assistant"
+      - "--timeout"
+      - "90"
